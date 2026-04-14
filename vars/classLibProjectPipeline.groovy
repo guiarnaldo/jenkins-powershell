@@ -40,5 +40,12 @@ def call(body) {
                 }
             }
         }
+
+        post {
+            always {
+                // Limpa os arquivos
+                cleanWs()
+            }
+        }
     }
 }

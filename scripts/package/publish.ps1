@@ -21,19 +21,21 @@ catch {
 
 # Upload para o FTP que tem os pacotes do Nuget
 
-$request = [System.Net.FtpWebRequest]::Create($env:FTP/$aplicacao)
-$request.Credentials = New-Object System.Net.NetworkCredential($env:USUARIO, $env:SENHA)
-$request.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
-$request.UseBinary = $true
-$request.KeepAlive = $false
-$request.EnableSsl = $false
-$request.Proxy = $null
-
 Get-ChildItem $caminho_build/*.nupkg -name | ForEach-Object {
     try {
-        $request.ContentLength = (Get-Item $_).Length
+        $nomePasta = [Regex]::Match($_, "^\D+(?=\.\d)").Value
+        Write-Host "$env:FTP/$nomePasta/$_"
+        $request = [System.Net.FtpWebRequest]::Create("$env:FTP/$nomePasta/$_")
+        $request.Credentials = New-Object System.Net.NetworkCredential($env:USUARIO, $env:SENHA)
+        $request.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
+        $request.UseBinary = $true
+        $request.KeepAlive = $false
+        $request.EnableSsl = $false
+        $request.Proxy = $null
 
-        $fileStream = [System.IO.File]::OpenRead($_)
+        $request.ContentLength = (Get-Item "$caminho_build/$_").Length
+
+        $fileStream = [System.IO.File]::OpenRead("$caminho_build/$_")
         $ftpStream = $request.GetRequestStream()
         $buffer = New-Object byte[] $tamanhoBuffer
         $atual = 0
