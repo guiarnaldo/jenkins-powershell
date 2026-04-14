@@ -23,8 +23,8 @@ catch {
 
 Get-ChildItem $caminho_build/*.nupkg -name | ForEach-Object {
     try {
+        # Pega o nome do arquivo até chegar no primeiro número, excluíndo o último caractere antes do número
         $nomePasta = [Regex]::Match($_, "^\D+(?=\.\d)").Value
-        Write-Host "$env:FTP/$nomePasta/$_"
         $request = [System.Net.FtpWebRequest]::Create("$env:FTP/$nomePasta/$_")
         $request.Credentials = New-Object System.Net.NetworkCredential($env:USUARIO, $env:SENHA)
         $request.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
@@ -43,9 +43,6 @@ Get-ChildItem $caminho_build/*.nupkg -name | ForEach-Object {
         while (($atual = $fileStream.Read($buffer, 0, $buffer.Length)) -gt 0) {
             $ftpStream.Write($buffer, 0, $atual)
         }
-
-        $fileStream.Close()
-        $ftpStream.Close()
 
         $response = $request.GetResponse()
         Write-Host "Upload concluído: $($response.StatusDescription)"
