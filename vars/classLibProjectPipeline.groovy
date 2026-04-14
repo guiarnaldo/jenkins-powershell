@@ -7,7 +7,6 @@ def call(body) {
     body.delegate = config
     body()
     def dataAtual = new Date().format("yy.MM.dd", TimeZone.getTimeZone('UTC'))
-    def nomeZip = config.aplicacaoIIS.split('[/\\\\]')[-1]
 
     pipeline {
         agent any
@@ -15,15 +14,16 @@ def call(body) {
         environment {
             CAMINHO_SOLUCAO = "${config.caminhoSolucao}"
             CAMINHO_PROJETO = "${config.caminhoProjeto}"
-            APLICACAO_IIS = "${config.aplicacaoIIS}"
+            APLICACAO = "${config.aplicacao}"
             DATA_ATUAL = "${dataAtual}"
-            NOME_ZIP = "${nomeZip}"
+            NOME_ZIP = "${config.aplicacao}"
+            JENKINS_SCRIPTS_PATH = "${jenkinsScriptsPath}"
         }        
 
         stages {
             stage('Build') {
                 steps {
-                    powershell "${jenkinsScriptsPath}/web/build.ps1"
+                    powershell "${jenkinsScriptsPath}/package/build.ps1"
                 }
             }
 
@@ -36,11 +36,11 @@ def call(body) {
 
             stage ('Publish') {
                 steps {
-                    powershell "${jenkinsScriptsPath}/web/publish.ps1"
+                    powershell "${jenkinsScriptsPath}/package/publish.ps1"
                 }
             }
         }
-                
+
         post {
             always {
                 // Limpa os arquivos
