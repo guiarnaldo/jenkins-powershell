@@ -5,7 +5,7 @@ $caminho_projeto = "$env:WORKSPACE/$env:CAMINHO_PROJETO"
 nuget restore $solution
 
 if ($null -ne $caminho_projeto) {
-	msbuild $caminho_projeto /p:DeployOnBuild=true /p:PublishProfile=Local /p:Platform=AnyCPU /p:Configuration=Release /p:PublishUrl=$caminho_build
+	msbuild $caminho_projeto -t:pack -p:Configuration=Release -p:PackageOutputPath=$caminho_build
 }
 
 if ($LASTEXITCODE -ne 0) {
