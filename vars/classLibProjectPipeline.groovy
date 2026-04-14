@@ -6,7 +6,6 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    def dataAtual = new Date().format("yy.MM.dd", TimeZone.getTimeZone('UTC'))
 
     pipeline {
         agent any
@@ -15,8 +14,8 @@ def call(body) {
             CAMINHO_SOLUCAO = "${config.caminhoSolucao}"
             CAMINHO_PROJETO = "${config.caminhoProjeto}"
             APLICACAO = "${config.aplicacao}"
-            DATA_ATUAL = "${dataAtual}"
             NOME_ZIP = "${nomeZip}"
+            JENKINS_SCRIPTS_PATH = "${jenkinsScriptsPath}"
         }        
 
         stages {
