@@ -1,6 +1,11 @@
 $caminho_build = "$env:WORKSPACE/build"
 $aplicacao = "$env:APLICACAO"
+$branch = "$env:BRANCH_NAME"
 $tamanhoBuffer = 64MB
+
+if ($branch -ne "master" -or $branch -ne "legacy"){
+    return
+}
 
 # Lê o arquivo .env e seta as variáveis de ambiente contidas nele
 
@@ -23,9 +28,7 @@ catch {
 
 Get-ChildItem $caminho_build/*.nupkg -name | ForEach-Object {
     try {
-        # Pega o nome do arquivo até chegar no primeiro número, excluíndo o último caractere antes do número
-        $nomePasta = [Regex]::Match($_, "^\D+(?=\.\d)").Value
-        $request = [System.Net.FtpWebRequest]::Create("$env:FTP/$nomePasta/$_")
+        $request = [System.Net.FtpWebRequest]::Create("$env:FTP/$_")
         $request.Credentials = New-Object System.Net.NetworkCredential($env:USUARIO, $env:SENHA)
         $request.Method = [System.Net.WebRequestMethods+Ftp]::UploadFile
         $request.UseBinary = $true
