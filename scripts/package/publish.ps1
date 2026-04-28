@@ -1,4 +1,4 @@
-$caminho_build = "$env:WORKSPACE/build"
+$caminho_build = Join-Path $env:WORKSPACE "build"
 $aplicacao = "$env:APLICACAO"
 $branch = "$env:BRANCH_NAME"
 $tamanhoBuffer = 64MB

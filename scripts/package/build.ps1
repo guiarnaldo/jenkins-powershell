@@ -1,6 +1,6 @@
-$solution = "$env:WORKSPACE/$env:CAMINHO_SOLUCAO"
-$caminho_build = "$env:WORKSPACE/build"
-$caminho_projeto = "$env:WORKSPACE/$env:CAMINHO_PROJETO"
+$solution = Join-Path $env:WORKSPACE $env:CAMINHO_SOLUCAO
+$caminho_build = Join-Path $env:WORKSPACE "build"
+$caminho_projeto = Join-Path $env:WORKSPACE $env:CAMINHO_PROJETO
 
 nuget restore $solution
 
