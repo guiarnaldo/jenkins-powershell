@@ -13,12 +13,12 @@ def call(body) {
         agent any
         
         environment {
-            CAMINHO_SOLUCAO = "${config.caminhoSolucao}"
-            CAMINHO_PROJETO = "${config.caminhoProjeto}"
-            CAMINHO_WEB = "${config.caminhoProjetoWeb}"
-            CAMINHO_API = "${config.caminhoProjetoApi}"
-            CAMINHO_SEGUNDA_VIA = "${config.caminhoSegundaVia}"
-            APLICACAO_IIS = "${config.aplicacaoIIS}"
+            CAMINHO_SOLUCAO = config.caminhoSolucao
+            CAMINHO_PROJETO = config.caminhoProjeto
+            CAMINHO_WEB = config.caminhoProjetoWeb
+            CAMINHO_API = config.caminhoProjetoApi
+            CAMINHO_SEGUNDA_VIA = config.caminhoSegundaVia
+            APLICACAO_IIS = config.aplicacaoIIS
             DATA_ATUAL = "${dataAtual}"
             NOME_ZIP = "${nomeZip}"
             JENKINS_SCRIPTS_PATH = "${jenkinsScriptsPath}"
