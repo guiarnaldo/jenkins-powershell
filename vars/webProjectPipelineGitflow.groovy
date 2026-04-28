@@ -14,6 +14,7 @@ def call(body) {
         
         environment {
             CAMINHO_SOLUCAO = "${config.caminhoSolucao}"
+            CAMINHO_PROJETO = "${config.caminhoProjeto}"
             CAMINHO_WEB = "${config.caminhoProjetoWeb}"
             CAMINHO_API = "${config.caminhoProjetoApi}"
             CAMINHO_SEGUNDA_VIA = "${config.caminhoSegundaVia}"
